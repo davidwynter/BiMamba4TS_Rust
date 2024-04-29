@@ -1,0 +1,4 @@
+[dependencies]
+ndarray = "0.15"
+ndarray-stats = "0.5"
+candle_core = "0.1"

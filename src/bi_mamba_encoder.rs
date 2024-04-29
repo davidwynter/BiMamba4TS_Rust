@@ -1,4 +1,4 @@
-use candle_core::tensor::Tensor;
+use candle_core::tensor::{Tensor, Device};
 use std::rc::Rc;
 
 /// Flips a tensor along the specified dimension.
@@ -16,6 +16,7 @@ fn flip(tensor: &Tensor, dim: usize, device: Rc<Device>) -> Tensor {
 struct BiMambaEncoder {
     forward_block: MambaBlock,
     backward_block: MambaBlock,
+    device: Device,
 }
 
 impl BiMambaEncoder {

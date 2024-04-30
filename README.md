@@ -39,4 +39,3 @@ This component is integrated into the model's forward function where it will pre
 This implementation provides a foundational structure for the PatchTokenizer component. Depending on your specific requirements and data characteristics, further customization might be necessary, especially concerning how to handle edge cases where the sequence length is not a perfect multiple of the patch size.
 ### TODO
 Initialize the model and prepare the dataset. Implement the training loop using the loss function (MSE) and an optimizer (like Adam). Evaluate the model on your validation/test dataset.
-

@@ -3,10 +3,10 @@ A naive Rust implementation of the 2404.15772v1.pdf paper on arxiv.org
 
 Based on the paper, there are 4 components:
 
-    SRA Decider: Decides the tokenization strategy based on Pearson correlation coefficients.
-    Patch Tokenization: Converts time series into patch-wise tokens.
-    Bi-Mamba Encoder: A bidirectional encoder for handling the time series data.
-    Loss Function: Typically, MSE (Mean Squared Error) for regression tasks.
+- SRA Decider: Decides the tokenization strategy based on Pearson correlation coefficients.
+- Patch Tokenization: Converts time series into patch-wise tokens.
+- Bi-Mamba Encoder: A bidirectional encoder for handling the time series data.
+- Loss Function: Typically, MSE (Mean Squared Error) for regression tasks.
 
 ## SRA Decider
 
@@ -14,17 +14,16 @@ The SRA Decider in the Bi-Mamba4TS model is designed to choose between channel-i
 SRA Decider Logic:
 
 The SRA_Decider module:
-
 Calculates the Pearson correlation coefficients between each pair of series. Use a threshold λλ to determine the degree of correlation that justifies switching from a channel-independent strategy to a channel-mixing strategy.
 ### Explanation:
 
-### Normalization: 
+#### Normalization: 
 For each series in the batch, the data is normalized by subtracting the mean and dividing by the standard deviation. Correlation Calculation: The Pearson correlation coefficients are calculated using the formula Correlation(X,Y)=∑(X−X‾)(Y−Y‾)∑(X−X‾)2∑(Y−Y‾)2Correlation(X,Y)=∑(X−X)2∑(Y−Y)2
 
 ​∑(X−X)(Y−Y)​, which simplifies to a matrix multiplication of normalized series when each series is normalized. Decision Making: The decision to use channel-mixing or channel-independent tokenization is based on whether the maximum correlation coefficient in the matrix (excluding self-correlations) exceeds the threshold λλ.
 Integration:
 
-### TODO 
+#### TODO 
 this function needs to be integrated into the training loop where you pass the current batch of your multivariate time series data through this decider to choose the appropriate tokenization strategy dynamically based on the data's inter-series relationships. Adjustments may be needed depending on the exact shape and nature of your data inputs.
 
 ## PatchTokenizer

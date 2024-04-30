@@ -1,2 +1,3 @@
 # BiMamba4TS_Rust
-A naive implementation of BiMamba4TS using the Rust language
+A naive Rust implementation of the 2404.15772v1.pdf paper on arxiv.org
+

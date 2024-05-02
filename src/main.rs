@@ -4,14 +4,13 @@ use crate::bi_mamba4ts::BiMamba4TS;
 use ndarray::Array2;
 
 mod bi_mamba4ts;
-mod bi_mamba_encoder;
-mod mamba_block;
-mod patch_tokenizer;
-mod sra_decider;
+
+use candle_core::tensor::{Tensor, Device};
+use std::rc::Rc;
 
 fn main() {
-    // Example of initializing the BiMamba4TS model
-    let model = BiMamba4TS::new();
+    let device = Rc::new(Device::new_cpu());
+    let model = BiMamba4TS::new(Rc::clone(&device));
 
     // Simulating loading or generating some input data and correlations
     // For this example, let's use random data (note: in practice, you'd likely load this from a dataset)

@@ -18,9 +18,10 @@ Calculates the Pearson correlation coefficients between each pair of series. Use
 ### Explanation:
 
 #### Normalization: 
-For each series in the batch, the data is normalized by subtracting the mean and dividing by the standard deviation. Correlation Calculation: The Pearson correlation coefficients are calculated using the formula Correlation(X,Y)=∑(X−X‾)(Y−Y‾)∑(X−X‾)2∑(Y−Y‾)2Correlation(X,Y)=∑(X−X)2∑(Y−Y)2
-
-​∑(X−X)(Y−Y)​, which simplifies to a matrix multiplication of normalized series when each series is normalized. Decision Making: The decision to use channel-mixing or channel-independent tokenization is based on whether the maximum correlation coefficient in the matrix (excluding self-correlations) exceeds the threshold λλ.
+For each series in the batch, the data is normalized by subtracting the mean and dividing by the standard deviation. Correlation Calculation: The Pearson correlation coefficients are calculated using the formula 
+`Correlation(X,Y)=∑(X−X‾)(Y−Y‾)∑(X−X‾)^2∑(Y−Y‾)^2`
+`Correlation(X,Y)=∑(X−X)^2∑(Y−Y)^2​∑(X−X)(Y−Y)​`
+, which simplifies to a matrix multiplication of normalized series when each series is normalized. Decision Making: The decision to use channel-mixing or channel-independent tokenization is based on whether the maximum correlation coefficient in the matrix (excluding self-correlations) exceeds the threshold λλ.
 Integration:
 
 #### TODO 

@@ -1,17 +1,23 @@
 extern crate ndarray;
 use ndarray::{Array3, ArrayView2, Array4, Axis, s};
 
+pub enum TokenizationStrategy {
+    ChannelIndependent,
+    ChannelMixing,
+}
+
 pub struct PatchTokenizer {
     pub patch_size: usize,
+    pub strategy: TokenizationStrategy,
 }
 
 impl PatchTokenizer {
     /// Constructs a new `PatchTokenizer`.
-    pub fn new(patch_size: usize) -> Self {
-        PatchTokenizer { patch_size }
+    pub fn new(patch_size: usize, strategy: TokenizationStrategy) -> Self {
+        PatchTokenizer { patch_size, strategy }
     }
 
-    /// Transforms the input data into patches.
+    /// Transforms the input data into patches based on the selected tokenization strategy.
     ///
     /// # Arguments
     /// * `x` - A 2D array (`ArrayView2`) where rows correspond to time series and columns to time points.
@@ -36,9 +42,16 @@ impl PatchTokenizer {
             x[[i, j * self.patch_size + k]]
         });
 
-        // Optionally, add another dimension for patch sets if needed
-        patched.into_shape((num_series, 1, num_patches, self.patch_size)).unwrap()
+        match self.strategy {
+            TokenizationStrategy::ChannelIndependent => {
+                // No change needed, each channel is already independent
+                patched.into_shape((num_series, 1, num_patches, self.patch_size)).unwrap()
+            },
+            TokenizationStrategy::ChannelMixing => {
+                // Transpose to group patches with the same index across different series
+                let mixed = patched.permuted_axes([1, 0, 2]);
+                mixed.into_shape((1, num_patches, num_series, self.patch_size)).unwrap()
+            },
+        }
     }
 }
-
-

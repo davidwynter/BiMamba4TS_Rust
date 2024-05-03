@@ -28,8 +28,9 @@ impl BiMambaEncoder {
 
     pub fn forward(&self, x: &Tensor) -> Tensor {
         let forward_output = self.forward_block.forward(x);
-        let backward_input = flip(x, 1, Rc::clone(&self.device));  // Correct usage of device
+        let backward_input = flip(x, 1, Rc::clone(&self.device));
         let backward_output = self.backward_block.forward(&backward_input);
-        forward_output + backward_output
+        forward_output + backward_output  // This can be modified to include a more complex combination mechanism if needed
     }
 }
+

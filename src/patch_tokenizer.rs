@@ -8,26 +8,26 @@ pub enum TokenizationStrategy {
 
 pub struct PatchTokenizer {
     pub patch_size: usize,
-    pub strategy: TokenizationStrategy,
 }
 
 impl PatchTokenizer {
     /// Constructs a new `PatchTokenizer`.
-    pub fn new(patch_size: usize, strategy: TokenizationStrategy) -> Self {
-        PatchTokenizer { patch_size, strategy }
+    pub fn new(patch_size: usize) -> Self {
+        PatchTokenizer { patch_size }
     }
 
     /// Transforms the input data into patches based on the selected tokenization strategy.
     ///
     /// # Arguments
     /// * `x` - A 2D array (`ArrayView2`) where rows correspond to time series and columns to time points.
+    /// * `strategy` - The strategy to use for tokenizing the input data.
     ///
     /// # Returns
     /// * `Array4<f64>` - A 4D array where the added dimensions correspond to patches and their contents.
     ///
     /// # Panics
     /// * Panics if the number of columns in `x` is not divisible by `patch_size`.
-    pub fn forward(&self, x: ArrayView2<f64>) -> Array4<f64> {
+    pub fn forward(&self, x: ArrayView2<f64>, strategy: TokenizationStrategy) -> Array4<f64> {
         let num_series = x.nrows();
         let sequence_length = x.ncols();
 
@@ -42,7 +42,7 @@ impl PatchTokenizer {
             x[[i, j * self.patch_size + k]]
         });
 
-        match self.strategy {
+        match strategy {
             TokenizationStrategy::ChannelIndependent => {
                 // No change needed, each channel is already independent
                 patched.into_shape((num_series, 1, num_patches, self.patch_size)).unwrap()

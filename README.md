@@ -30,7 +30,7 @@ The decision to use channel-mixing or channel-independent tokenization is based 
 #### Integration:
 
 #### TODO 
-this function needs to be integrated into the training loop where you pass the current batch of your multivariate time series data through this decider to choose the appropriate tokenization strategy dynamically based on the data's inter-series relationships. Adjustments may be needed depending on the exact shape and nature of your data inputs.
+This function needs to be integrated into the training loop where you pass the current batch of your multivariate time series data through this decider to choose the appropriate tokenization strategy dynamically based on the data's inter-series relationships. Adjustments may be needed depending on the exact shape and nature of your data inputs.
 
 ## PatchTokenizer
 
@@ -38,12 +38,19 @@ The main task is to convert a sequence of multivariate time series data into pat
 
 Patch Tokenization:
 ### Objective: 
-Divide each univariate series into non-overlapping patches. Input Shape: Typically, the input to the PatchTokenizer would be of shape [batch_size, num_series, sequence_length]. Output Shape: After patch tokenization, the output should be [batch_size, num_series, num_patches, patch_size], where num_patches is the number of patches that can be created from sequence_length.
+Divide each univariate series into non-overlapping patches. Input Shape: Typically, the input to the PatchTokenizer would be of shape [batch_size, num_series, sequence_length]. 
+
+Output Shape: After patch tokenization, the output should be [batch_size, num_series, num_patches, patch_size], where num_patches is the number of patches that can be created from sequence_length.
+
 ### Explanation:
-Input Shape and Patch Calculation: The function starts by extracting the dimensions of the input tensor and then computes how many full patches can be extracted from each time series. Validation: It checks if the sequence_length is perfectly divisible by patch_size. If not, it raises a ValueError. This is crucial to ensure that each patch has the same size, which is important for consistent processing by subsequent model components. Reshaping for Patches: The tensor is reshaped to group elements into patches. The view method is used to reshape the tensor without copying the data, but it requires that the number of elements remains constant.
+Input Shape and Patch Calculation: The function starts by extracting the dimensions of the input tensor and then computes how many full patches can be extracted from each time series. Validation: It checks if the sequence_length is perfectly divisible by patch_size. If not, it raises a ValueError. This is crucial to ensure that each patch has the same size, which is important for consistent processing by subsequent model components. 
+
+Reshaping for Patches: The tensor is reshaped to group elements into patches. The view method is used to reshape the tensor without copying the data, but it requires that the number of elements remains constant.
+
 ### Integration and Usage:
 This component is integrated into the model's forward function where it will preprocess the multivariate time series data before passing it to the encoder. Checks to be sure that the data dimensions are correctly managed, and the sequence_length is indeed divisible by patch_size for every batch of data.
 
 This implementation provides a foundational structure for the PatchTokenizer component. Depending on your specific requirements and data characteristics, further customization might be necessary, especially concerning how to handle edge cases where the sequence length is not a perfect multiple of the patch size.
+
 ### TODO
 Initialize the model and prepare the dataset. Implement the training loop using the loss function (MSE) and an optimizer (like Adam). Evaluate the model on your validation/test dataset.

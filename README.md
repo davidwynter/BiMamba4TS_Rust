@@ -11,6 +11,7 @@ Based on the paper, there are 4 components:
 ## SRA Decider
 
 The SRA Decider in the Bi-Mamba4TS model is designed to choose between channel-independent and channel-mixing tokenization strategies based on the Pearson correlation coefficients among different series. The decision is based on a threshold λλ which you set (defaulting to 0.6 in the skeleton).
+
 SRA Decider Logic:
 
 The SRA_Decider module:
@@ -33,7 +34,9 @@ this function needs to be integrated into the training loop where you pass the c
 
 ## PatchTokenizer
 
-The main task is to convert a sequence of multivariate time series data into patches. This transformation allows the model to focus on local sub-sequences or "patches" of the data. This can be critical for capturing local temporal patterns more effectively. Patch Tokenization:
+The main task is to convert a sequence of multivariate time series data into patches. This transformation allows the model to focus on local sub-sequences or "patches" of the data. This can be critical for capturing local temporal patterns more effectively. 
+
+Patch Tokenization:
 ### Objective: 
 Divide each univariate series into non-overlapping patches. Input Shape: Typically, the input to the PatchTokenizer would be of shape [batch_size, num_series, sequence_length]. Output Shape: After patch tokenization, the output should be [batch_size, num_series, num_patches, patch_size], where num_patches is the number of patches that can be created from sequence_length.
 ### Explanation:
